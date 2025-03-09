@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'MenCategoryScreen.dart';
+import 'ProductListing.dart';
+import 'ProfileScreen.dart';
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,7 @@ class CategoryScreen extends StatelessWidget {
                 // ✅ "Men" category pe click karne par MenCategoryScreen khul jayega
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MenCategoryScreen()),
+                  MaterialPageRoute(builder: (context) => ProductList()),
                 );
               }
             },
