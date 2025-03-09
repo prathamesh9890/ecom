@@ -1,4 +1,21 @@
 import 'package:flutter/material.dart';
+import 'CategoryScreen.dart';
+import 'ProductListing.dart';
+import 'ProfileScreen.dart';
+
+void main() {
+  runApp(Home_Screen());
+}
+
+class Home_Screen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false, // Removes debug banner
+      home: HomeScreen(),
+    );
+  }
+}
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -7,13 +24,35 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: Icon(Icons.menu, color: Colors.black),
-        title: Image.asset('assets/logo.png', height: 40), // Your logo
+        // automaticallyImplyLeading: true,
+        // leading: Icon(Icons.menu, color: Colors.black),
+        // title: Image.asset('assets/images/img.png', color: Colors.red, height: 40),
+        // centerTitle: true, // Your logo
         actions: [
-          Icon(Icons.shopping_cart, color: Colors.black),
+          IconButton(
+            icon: Icon(Icons.person, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
+              );
+            },
+          ),
+          SizedBox(width: 10),
+          IconButton(
+            icon: Icon(Icons.shopping_cart, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProductList()),
+              );
+            },
+          ),
           SizedBox(width: 10),
         ],
+
       ),
+      drawer: AppDrawer(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,7 +61,7 @@ class HomeScreen extends StatelessWidget {
             _bannerSection(),
             _shopByBrands(),
             _browseCategory(),
-            _shopByCategory(),
+            _shopByCategory(), // Updated Section
             _mensAndWomensCollection(),
             _flashSale(),
             _faqSection(),
@@ -50,17 +89,47 @@ class HomeScreen extends StatelessWidget {
 
   Widget _bannerSection() {
     return Container(
-      height: 200,
+      height: 300,
       child: PageView(
         children: [
-          Image.asset('assets/banner1.jpg', fit: BoxFit.cover),
-          Image.asset('assets/banner2.jpg', fit: BoxFit.cover),
+          Image.asset('assets/images/home.png', fit: BoxFit.cover),
+          Image.asset('assets/images/fashion.png', fit: BoxFit.cover),
+          Image.asset('assets/images/fashion1.png', fit: BoxFit.cover),
+          Image.asset('assets/images/sales.png', fit: BoxFit.cover),
+
         ],
       ),
     );
   }
 
   Widget _shopByBrands() {
+    List<Map<String, String>> brands = [
+      {
+        "name": "Nike",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Logo_NIKE.svg/1200px-Logo_NIKE.svg.png"
+      },
+      {
+        "name": "Adidas",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/24/Adidas_logo.png"
+      },
+      {
+        "name": "Puma",
+        "image": "https://kreafolk.com/cdn/shop/articles/puma-logo-design-history-and-evolution-kreafolk_a042e2da-4ee1-4b78-a7be-c7c2e6acf65a.jpg?v=1717725066&width=2048"
+      },
+      {
+        "name": "Reebok",
+        "image": "https://logos-world.net/wp-content/uploads/2020/04/Reebok-Logo.png"
+      },
+      {
+        "name": "Samsung",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/1200px-Samsung_Logo.svg.png"
+      },
+      {
+        "name": "Apple",
+        "image": "https://banner2.cleanpng.com/20180625/pgg/aaz8nox3y.webp"
+      },
+    ];
+
     return Column(
       children: [
         Text("Shop By Brands", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -68,13 +137,33 @@ class HomeScreen extends StatelessWidget {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 2,
+            crossAxisCount: 3, // 3 brands ek row me
+            childAspectRatio: 1, // Square grid items
           ),
-          itemCount: 6, // Total brands
+          itemCount: brands.length,
           itemBuilder: (context, index) {
             return Card(
-              child: Center(child: Text("Brand ${index + 1}")),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Image.network(
+                      brands[index]["image"]!,
+                      fit: BoxFit.contain,
+                      width: 80, // Logo ka size adjust karne ke liye
+                      height: 80,
+                      errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image, size: 50),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      brands[index]["name"]!,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),
@@ -82,28 +171,31 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+
   Widget _browseCategory() {
     return Column(
       children: [
         Text("Browse Category", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        _categoryTile("Mens", "assets/mens.jpg"),
-        _categoryTile("Women", "assets/women.jpg"),
-        _categoryTile("Kids", "assets/kids.jpg"),
+        Image.asset('assets/images/mens.png', fit: BoxFit.cover),
+        SizedBox(height: 8),
+        Image.asset('assets/images/women.png', fit: BoxFit.cover),
+        SizedBox(height: 8),
+        Image.asset('assets/images/kids.png', fit: BoxFit.cover),
+        SizedBox(height: 8,)
       ],
     );
   }
 
-  Widget _categoryTile(String title, String image) {
-    return Card(
-      child: ListTile(
-        leading: Image.asset(image, width: 50),
-        title: Text(title),
-        trailing: Icon(Icons.arrow_forward_ios),
-      ),
-    );
-  }
-
   Widget _shopByCategory() {
+    List<Map<String, String>> categories = [
+      {"name": "Men's Clothing", "image": "assets/images/mensClothing.png"},
+      {"name": "Women's Clothing", "image": "assets/images/womenClothing.png"},
+      {"name": "Electronics", "image": "assets/images/electonic.png"},
+      {"name": "Jewelry", "image": "assets/images/jewelry.png"},
+      {"name": "Shoes", "image": "assets/images/shoes.png"},
+      {"name": "Watches", "image": "assets/images/watches.png"},
+    ];
+
     return Column(
       children: [
         Text("Shop By Category", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -114,13 +206,21 @@ class HomeScreen extends StatelessWidget {
             crossAxisCount: 2,
             childAspectRatio: 1.2,
           ),
-          itemCount: 6,
+          itemCount: categories.length,
           itemBuilder: (context, index) {
             return Card(
               child: Column(
                 children: [
-                  Expanded(child: Image.asset('assets/category${index + 1}.jpg', fit: BoxFit.cover)),
-                  Text("Category ${index + 1}"),
+                  Expanded(
+                    child: Image.asset(categories[index]["image"]!, fit: BoxFit.cover),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      categories[index]["name"]!,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ],
               ),
             );
@@ -134,14 +234,14 @@ class HomeScreen extends StatelessWidget {
     return Column(
       children: [
         Text("Men's Cloth Collection", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        _productList(),
+        _productList(isMensCollection: true), // Men's Collection
         Text("Women's Cloth Collection", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        _productList(),
+        _productList(isMensCollection: false), // Women's Collection
       ],
     );
   }
 
-  Widget _productList() {
+  Widget _productList({required bool isMensCollection}) {
     return SizedBox(
       height: 180,
       child: ListView.builder(
@@ -151,7 +251,13 @@ class HomeScreen extends StatelessWidget {
           return Card(
             child: Column(
               children: [
-                Image.asset('assets/product${index + 1}.jpg', width: 100, height: 100),
+                Image.asset(
+                  isMensCollection
+                      ? 'assets/images/mensCloth.png'  // Men's Clothing Image
+                      : 'assets/images/womenCloths.png', // Women's Clothing Image
+                  width: 100,
+                  height: 100,
+                ),
                 Text("Product ${index + 1}"),
                 Text("\$590", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
               ],
@@ -163,13 +269,41 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _flashSale() {
+    List<String> flashSaleImages = [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHH4Ikx-cPI9TAep03DoHiydisrYMH33HIGA&s",
+      "https://img.freepik.com/free-vector/flat-design-second-hand-template_23-2150537710.jpg?semt=ais_hybrid",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9QgrCNo9NpfPVVsYNriVC7Pl9Z0AENkQ_mQ&s",
+      "https://www.shutterstock.com/image-photo/young-woman-chooses-which-outfit-260nw-2300456923.jpg"
+    ];
+
     return Column(
       children: [
         Text("Flash Sale", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        Image.asset('assets/flashsale.jpg', width: double.infinity, height: 150, fit: BoxFit.cover),
+        SizedBox(
+          height: 150,
+          child: PageView.builder(
+            itemCount: flashSaleImages.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10), // Rounded corners
+                  child: Image.network(
+                    flashSaleImages[index],
+                    width: double.infinity,
+                    height: 150,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image, size: 50),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
       ],
     );
   }
+
 
   Widget _faqSection() {
     return ExpansionTile(
@@ -191,23 +325,49 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _footer() {
-    return Container(
-      padding: EdgeInsets.all(16),
+    return  Container(
       color: Colors.red,
+      padding: EdgeInsets.symmetric(vertical: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("© 2025 KDigitalCurry. All rights reserved.", style: TextStyle(color: Colors.white)),
+          Center(
+            child: Image.asset('assets/images/img.png', height: 60),
+          ),
+          SizedBox(height: 10),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Products", style: TextStyle(color: Colors.white)),
-              Text("Company", style: TextStyle(color: Colors.white)),
-              Text("Shop", style: TextStyle(color: Colors.white)),
-              Text("Service", style: TextStyle(color: Colors.white)),
+              TextButton(onPressed: () {}, child: Text('Products', style: TextStyle(color: Colors.white))),
+              TextButton(onPressed: () {}, child: Text('Company', style: TextStyle(color: Colors.white))),
+              TextButton(onPressed: () {}, child: Text('Shop', style: TextStyle(color: Colors.white))),
+              TextButton(onPressed: () {}, child: Text('Service', style: TextStyle(color: Colors.white))),
             ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 30), //
+            child: Text(
+              'What’s New\nSales\nTop Picks',
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.left, // Ensure left alignment
+            ),
+
+          ),
+          SizedBox(height: 40),
+          Center(
+            child: Text(
+              '© 2025 KDigitalCurry. All rights reserved.',
+              style: TextStyle(color: Colors.white70, fontSize: 12),
+            ),
           ),
         ],
       ),
     );
   }
+  // Widget buildFooterOption(String title) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+  //     child: Text(title, style: TextStyle(color: Colors.white)),
+  //   );
+  // }
 }
