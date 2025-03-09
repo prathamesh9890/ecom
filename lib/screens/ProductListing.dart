@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:cached_network_image/cached_network_image.dart';
-
 import 'FilterScreen.dart';
 import 'ProductDetails.dart';
 
@@ -61,11 +56,42 @@ class _ProductListingState extends State<ProductListing> {
         children: [
           Row(
             children: [
-              ElevatedButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterScreen()));
-              }, child: Text('Sort By')),
-          SizedBox(width: 10,),
-          ElevatedButton(onPressed: (){}, child: Text('Filter')),
+              SizedBox(width: 20,),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red, // Red background color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero, // Square shape
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10), // Button size
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterScreen()));
+                },
+                icon: Icon(Icons.swap_vert, color: Colors.white, size: 18), // Sort icon
+                label: Text(
+                  "Sort By",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+          SizedBox(width: 20,),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red, // Red background color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero, // Square shape
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10), // Button size
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterScreen()));
+                },
+                icon: Icon(Icons.filter_list, color: Colors.white, size: 18), // Filter icon
+                label: Text(
+                  "Filter",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
           ]),
           Expanded(
             child: isLoading

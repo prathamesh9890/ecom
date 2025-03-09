@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'MenCategoryScreen.dart';
 import 'ProductListing.dart';
 import 'ProfileScreen.dart';
+
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -29,9 +30,13 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.shopping_cart),
-            title: Text("Cart"),
-            onTap: () {},
+            leading: Icon(Icons.label_important),
+            title: Text("Men Fashion List"),
+            onTap: () {
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MenCat()),
+            );},
           ),
           ListTile(
             leading: Icon(Icons.logout),
@@ -61,7 +66,7 @@ class CategoryScreen extends StatelessWidget {
             trailing: Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () {
               if (categories[index] == "Men") {
-                // ✅ "Men" category pe click karne par MenCategoryScreen khul jayega
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ProductList()),
@@ -76,47 +81,3 @@ class CategoryScreen extends StatelessWidget {
   }
 }
 
-//
-// class CategoryScreen extends StatelessWidget {
-//   final List<String> categories = ["Men", "Women", "Electronics", "Jewelry"];
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("Categories"),
-//         leading: IconButton(
-//           icon: Icon(Icons.arrow_back),
-//           onPressed: () {
-//             Navigator.pop(context);
-//           },
-//         ),
-//         actions: [
-//           IconButton(
-//             icon: Icon(Icons.shopping_cart),
-//             onPressed: () {},
-//           ),
-//         ],
-//       ),
-//       body: ListView.separated(
-//         padding: EdgeInsets.all(16),
-//         itemCount: categories.length,
-//         itemBuilder: (context, index) {
-//           return ListTile(
-//             title: Text(categories[index]),
-//             trailing: Icon(Icons.arrow_forward_ios, size: 16),
-//             onTap: () {},
-//           );
-//         },
-//         separatorBuilder: (context, index) => Divider(),
-//       ),
-//     );
-//   }
-// }
-//
-// void main() {
-//   runApp(MaterialApp(
-//     debugShowCheckedModeBanner: false, // ✅ Debug banner removed
-//     home: CategoryScreen(),
-//   ));
-// }

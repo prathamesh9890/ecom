@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'CartsDitailesScreen.dart';
 import 'CategoryScreen.dart';
 import 'ProductListing.dart';
 import 'ProfileScreen.dart';
@@ -40,11 +42,11 @@ class HomeScreen extends StatelessWidget {
           ),
           SizedBox(width: 10),
           IconButton(
-            icon: Icon(Icons.list_alt, color: Colors.black),
+            icon: Icon(Icons.shopping_cart, color: Colors.black),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProductList()),
+                MaterialPageRoute(builder: (context) => CartScreen()),
               );
             },
           ),
