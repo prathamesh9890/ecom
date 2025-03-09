@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
           ),
           SizedBox(width: 10),
           IconButton(
-            icon: Icon(Icons.shopping_cart, color: Colors.black),
+            icon: Icon(Icons.list_alt, color: Colors.black),
             onPressed: () {
               Navigator.push(
                 context,
