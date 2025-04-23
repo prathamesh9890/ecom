@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-// void main() {
-//   runApp(MaterialApp(
-//     home: CartScreen(),
-//     debugShowCheckedModeBanner: false,
-//   ));
-// }
-
 class CartScreen extends StatefulWidget {
   @override
   _CartScreenState createState() => _CartScreenState();
